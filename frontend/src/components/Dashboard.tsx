@@ -18,7 +18,7 @@ export const Dashboard: React.FC = () => {
     try {
       const [docs, brackets] = await Promise.all([
         documentsApi.list(),
-        taxCalculatorApi.getTaxBrackets(),
+        taxCalculatorApi.getBrackets(),
       ]);
       setDocuments(docs);
       setTaxInfo(brackets);

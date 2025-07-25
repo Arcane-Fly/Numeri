@@ -13,6 +13,18 @@ export interface Document {
   processed_at?: string;
 }
 
+export interface DocumentUploadResponse {
+  id: number;
+  filename: string;
+  original_filename: string;
+  file_size: number;
+  content_type: string;
+  status: 'pending' | 'processing' | 'completed' | 'error';
+  document_type?: string;
+  created_at: string;
+  message?: string;
+}
+
 export interface TaxReturn {
   id: number;
   tax_year: string;
@@ -61,6 +73,35 @@ export interface TaxCalculation {
   total_tax: number;
   total_tax_before_offsets: number;
   total_offsets: number;
+}
+
+export interface TaxCalculationRequest {
+  total_income: number;
+  total_deductions?: number;
+  work_related_expenses?: number;
+  investment_income?: number;
+  business_income?: number;
+}
+
+export interface TaxCalculationResponse {
+  total_income: number;
+  total_deductions: number;
+  taxable_income: number;
+  income_tax: number;
+  medicare_levy: number;
+  low_income_tax_offset: number;
+  small_business_offset: number;
+  total_tax: number;
+  total_tax_before_offsets: number;
+  total_offsets: number;
+  breakdown: {
+    income_tax_breakdown: Array<{
+      bracket: string;
+      taxable_amount: number;
+      tax_amount: number;
+      rate: number;
+    }>;
+  };
 }
 
 export interface WorkFromHomeCalculation {
