@@ -30,7 +30,7 @@ export const DocumentList: React.FC = () => {
     }
 
     try {
-      await documentsApi.delete(id);
+      await documentsApi.delete(id.toString());
       setDocuments(docs => docs.filter(doc => doc.id !== id));
     } catch (error) {
       console.error('Failed to delete document:', error);

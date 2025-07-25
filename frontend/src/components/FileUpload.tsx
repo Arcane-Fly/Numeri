@@ -46,9 +46,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onUploadComplete }) => {
 
     setUploading(true);
     try {
-      const document = await documentsApi.upload(selectedFile);
+      // Create FileList from single file
+      const fileList = new DataTransfer();
+      fileList.items.add(selectedFile);
+      const documents = await documentsApi.upload(fileList.files);
       setSelectedFile(null);
-      onUploadComplete?.(document);
+      onUploadComplete?.(documents[0]);
     } catch (error) {
       console.error('Upload failed:', error);
       alert('Upload failed. Please try again.');

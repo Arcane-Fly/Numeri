@@ -24,12 +24,17 @@ export const TaxCalculator: React.FC = () => {
   const handleCalculate = async () => {
     setCalculating(true);
     try {
-      const result = await taxCalculatorApi.calculate(incomeData, deductionData);
-      if (result.success) {
-        setCalculation(result.data);
-      } else {
-        alert('Calculation failed: ' + (result.error || 'Unknown error'));
-      }
+      const totalIncome = incomeData.employment_income + incomeData.investment_income + incomeData.business_income;
+      const totalDeductions = deductionData.work_related_expenses + deductionData.work_from_home_deduction + deductionData.other_deductions;
+      
+      const result = await taxCalculatorApi.calculate({
+        total_income: totalIncome,
+        total_deductions: totalDeductions,
+        work_related_expenses: deductionData.work_related_expenses,
+        investment_income: incomeData.investment_income,
+        business_income: incomeData.business_income,
+      });
+      setCalculation(result);
     } catch (error) {
       console.error('Calculation failed:', error);
       alert('Calculation failed. Please try again.');
